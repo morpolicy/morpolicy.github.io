@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+  .image-container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .image-link {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 14px;
+  }
+  .image-link img {
+    width: 100%;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .image-link:hover img {
+    transform: scale(1.1);
+  }
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.1);
+    color: grey;
+
+    display: flex;
+    align-items: start;
+    justify-content: center;
+
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .image-link:hover .overlay {
+    opacity: 1;
+  }
+</style>
+
+<!--header-->
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Morpolicy">
+    <meta name="keywords" content="Morpolicy">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Morpolicy</title>
+    <!-- links -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="icon" href="./static/image/pi.png">
+    <!-- Theme Colors -->
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e293b;
+            --accent-color: #00d1b2;
+            --background-color: #f5f7fa;
+            --text-color: #222222;
+            --card-color: #ffffff;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .hero {
+            background-color: var(--secondary-color);
+        }
+
+        .title {
+            color: var(--primary-color);
+        }
+
+        .subtitle {
+            color: var(--accent-color);
+        }
+
+        .box,
+        .card {
+            background-color: var(--card-color);
+        }
+
+        a {
+            color: var(--primary-color);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <!--    <script async src="https://www.googletagmanager.com/gtag/js?id=G-P8EWM3QFEX"></script>-->
+    <!--    <script>-->
+    <!--        window.dataLayer = window.dataLayer || [];-->
+    <!--        function gtag() {-->
+    <!--            dataLayer.push(arguments);-->
+    <!--        }-->
+    <!--        gtag('js', new Date());-->
+    <!--        gtag('config', 'G-P8EWM3QFEX');-->
+    <!--    </script>-->
+</head>
+<body>
+
+<!--title-->
+<section class="hero is-primary" style="background-color: #1f2937;">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title" style="font-size: 3rem; color: #00d1b2;">
+                Morpolicy</h1>
+            <h2 class="subtitle" style="font-size: 2rem; color: #00d1b2;">
+                Zero-Shot Cross-Embodiment Grasping <br>with a Morphology-aware Policy
+            </h2>
+        </div>
+    </div>
+
+    <div class="column has-text-centered">
+        <div class="publication-links">
+            <!-- PDF Link. -->
+            <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+            <!-- Video Link. -->
+            <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fa fa-youtube-play"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+            <!-- Code Link. -->
+            <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fa fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+            <!-- Dataset Link. -->
+            <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fa fa-database"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+              </span>
+        </div>
+    </div>
+</section>
+
+<!--teaser-->
+<section class="section">
+    <div class="container has-text-centered">
+        <figure class="image">
+            <video autoplay muted loop playsinline width="30%">
+                <source src="./static/vid/chat.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </figure>
+    </div>
+</section>
+
+<!--Abstract-->
+<section class="section">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+                <h2 class="title is-3">Abstract</h2>
+                <div class="content has-text-justified">
+                    <p>
+                        Generalizing grasping policies to manipulators
+                        with unseen morphologies remains a key challenge in robotic
+                        manipulation. While prior work demonstrates that shared
+                        postural synergy representations enhance learning efficiency,
+                        their generalization to novel manipulators remains constrained.
+                        In this paper, we propose Morpolicy, a method to learn a cross-
+                        embodiment grasping policy that improves zero-shot general-
+                        ization to novel manipulators. Building on anchor-based geo-
+                        metric descriptions, Morpolicy introduces a morphology-aware
+                        posture synergy space, coupled with a morphology descriptor
+                        to disentangle grasp pose from manipulator embodiment. This
+                        disentanglement allows easy integration of novel manipulators
+                        into the same policy during inference. We evaluate Morpolicy on
+                        grasping tasks involving both seen and unseen manipulators and
+                        objects, ranging from parallel grippers to multi-fingered dexter-
+                        ous hands. Morpolicy achieves a substantially higher zero-shot
+                        grasp success rate on novel manipulators than the baselines. In
+                        real-world experiments, Morpolicy achieves an average of 75%
+                        success rate on three novel manipulators.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--rollout-->
+<section class="section">
+    <div class="container has-text-centered">
+        <h2 class="title">Cross-Embodiment Policy</h2>
+        <video controls autoplay muted loop playsinline width="60%">
+            <source src="./static/vid/rollout.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</section>
+
+<!--perturbation-->
+<section class="section">
+    <div class="container has-text-centered">
+        <h2 class="title">Visuomotor Policy under Perturbation</h2>
+        <video controls autoplay muted loop playsinline width="60%">
+            <source src="./static/vid/perturb.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</section>
+
+<!--known Manipulators-->
+<section class="section">
+    <div class="container is-max-desktop">
+        <h2 class="title has-text-centered">Known Manipulator</h2>
+        <div style="display: grid; place-items: center; grid-template-columns: repeat(4, 1fr);">
+            <div class="image-container">
+                <a href="https://github.com/RobotnikAutomation/widowx_arm" target="_blank" class="image-link">
+                    <div class="overlay">WidowX</div>
+                    <img src="./static/image/widowx.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/Osaka-University-Harada-Laboratory/onrobot" target="_blank" class="image-link">
+                    <div class="overlay">RG2</div>
+                    <img src="./static/image/rg2.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/ros-industrial-attic/robotiq" target="_blank" class="image-link">
+                    <div class="overlay">Robotiq-3f</div>
+                    <img src="./static/image/robotiq_3f.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/eaa3/dlr_hit_hand_ii" target="_blank" class="image-link">
+                    <div class="overlay">Hit2</div>
+                    <img src="./static/image/dlr_hit2.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/frankaemika/franka_ros" target="_blank" class="image-link">
+                    <div class="overlay">Franka</div>
+                    <img src="./static/image/franka.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/ros-industrial-attic/robotiq" target="_blank" class="image-link">
+                    <div class="overlay">2f-140</div>
+                    <img src="./static/image/2f140.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/simlabrobotics/allegro_hand_ros" target="_blank" class="image-link">
+                    <div class="overlay">Allegro</div>
+                    <img src="./static/image/allegro.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://mano.is.tue.mpg.de/" target="_blank" class="image-link">
+                    <div class="overlay">MANO</div>
+                    <img src="./static/image/mano.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/RethinkRobotics/sawyer_robot" target="_blank" class="image-link">
+                    <div class="overlay">Rethink</div>
+                    <img src="./static/image/rethink.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/google-deepmind/mujoco_menagerie" target="_blank" class="image-link">
+                    <div class="overlay">Google</div>
+                    <img src="./static/image/google.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/robotology/icub-models" target="_blank" class="image-link">
+                    <div class="overlay">iCub</div>
+                    <img src="./static/image/icub.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/AgibotTech/Omnihand-2025-SDK" target="_blank" class="image-link">
+                    <div class="overlay">Omni</div>
+                    <img src="./static/image/omni.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/ZebraDevs/fetch_ros" target="_blank" class="image-link">
+                    <div class="overlay">Fetch</div>
+                    <img src="./static/image/fetch.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/SAKErobotics/EZGripper" target="_blank" class="image-link">
+                    <div class="overlay">EZ</div>
+                    <img src="./static/image/ez.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/FFTAI/Wiki-GRx-Models" target="_blank" class="image-link">
+                    <div class="overlay">Fourier</div>
+                    <img src="./static/image/fourier.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/AndrejOrsula/shadow_hand_ign" target="_blank" class="image-link">
+                    <div class="overlay">Shadow</div>
+                    <img src="./static/image/shadow.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/xArm-Developer/xarm_ros" target="_blank" class="image-link">
+                    <div class="overlay">xArm</div>
+                    <img src="./static/image/xarm.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/Kinovarobotics/kinova-ros" target="_blank" class="image-link">
+                    <div class="overlay">Kinova-3f</div>
+                    <img src="./static/image/kinova_3f.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/psyonicinc/ability-hand-api" target="_blank" class="image-link">
+                    <div class="overlay">Ability</div>
+                    <img src="./static/image/ability.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/oymotion/rohand_gen2_urdf_ros2" target="_blank" class="image-link">
+                    <div class="overlay">ROHand</div>
+                    <img src="./static/image/rohand.png" style="max-width: 120px;">
+                </a>
+            </div>
+        </div>
+        <div class="content has-text-centered has-text-justified">
+            <div class="columns">
+                <div class="column">
+                    <ul>
+                        <li><a href="https://github.com/RobotnikAutomation/widowx_arm" target="_blank">WidowX</a><sup>\</sup></li>
+                        <li><a href="https://github.com/frankaemika/franka_ros" target="_blank">Franka</a></li>
+                        <li><a href="https://github.com/RethinkRobotics/sawyer_robot" target="_blank">Rethink</a><sup>\</sup></li>
+                        <li><a href="https://github.com/ZebraDevs/fetch_ros" target="_blank">Fetch</a></li>
+                        <li><a href="https://github.com/xArm-Developer/xarm_ros" target="_blank">xArm</a></li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li><a href="https://github.com/Osaka-University-Harada-Laboratory/onrobot" target="_blank">RG2</a></li>
+                        <li><a href="https://github.com/ros-industrial-attic/robotiq" target="_blank">2f-140</a></li>
+                        <li><a href="https://github.com/google-deepmind/mujoco_menagerie" target="_blank">Google</a>
+                        <li><a href="https://github.com/SAKErobotics/EZGripper" target="_blank">EZ</a></li>
+                        <li><a href="https://github.com/Kinovarobotics/kinova-ros" target="_blank">Kinova-3f</a></li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li><a href="https://github.com/ros-industrial-attic/robotiq" target="_blank">Robotiq-3f</a></li>
+                        <li><a href="https://github.com/simlabrobotics/allegro_hand_ros" target="_blank">Allegro</a></li>
+                        <li><a href="https://github.com/robotology/icub-models" target="_blank">iCub</a></li>
+                        <li><a href="https://github.com/FFTAI/Wiki-GRx-Models" target="_blank">Fourier</a></li>
+                        <li><a href="https://github.com/psyonicinc/ability-hand-api" target="_blank">Ability</a></li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li><a href="https://github.com/eaa3/dlr_hit_hand_ii" target="_blank">Hit2</a></li>
+                        <li><a href="https://mano.is.tue.mpg.de/" target="_blank">MANO</a><sup>\</sup></li>
+                        <li><a href="https://github.com/AgibotTech/Omnihand-2025-SDK" target="_blank">Omni</a></li>
+                        <li><a href="https://github.com/AndrejOrsula/shadow_hand_ign" target="_blank">Shadow</a></li>
+                        <li><a href="https://github.com/oymotion/rohand_gen2_urdf_ros2" target="_blank">ROHand</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="content has-text-justified">
+            <p>Note: <sup>\</sup> Manipulator excluded from grasping task.</p>
+        </div>
+    </div>
+</section>
+
+<!--unknown manipulator-->
+<section class="section">
+    <div class="container is-max-desktop">
+        <h2 class="title has-text-centered">Unknown Manipulator</h2>
+        <div style="display: grid; place-items: center; grid-template-columns: repeat(4, 1fr);">
+            <div class="image-container">
+                <a href="https://github.com/cambel/robotiq" target="_blank" class="image-link">
+                    <div class="overlay">E2f</div>
+                    <img src="./static/image/robotiq_e2f.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/Kinovarobotics/kinova-ros" target="_blank" class="image-link">
+                    <div class="overlay">Kinova-2f</div>
+                    <img src="./static/image/kinova_2f.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/leap-hand/LEAP_Hand_Sim" target="_blank" class="image-link">
+                    <div class="overlay">Leap</div>
+                    <img src="./static/image/leap.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/fzi-forschungszentrum-informatik/schunk_svh_driver" target="_blank" class="image-link">
+                    <div class="overlay">Schunk</div>
+                    <img src="./static/image/schunk.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/ipa320/ipa325_wsg50" target="_blank" class="image-link">
+                    <div class="overlay">WSG50</div>
+                    <img src="./static/image/wsg50.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/unitreerobotics/unitree_ros" target="_blank" class="image-link">
+                    <div class="overlay">Unitree-3f</div>
+                    <img src="./static/image/unitree.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/limxdynamics/humanoid-description" target="_blank" class="image-link">
+                    <div class="overlay">Oli</div>
+                    <img src="./static/image/oli.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/icub-tech-iit/ergocub-software" target="_blank" class="image-link">
+                    <div class="overlay">ergoCub</div>
+                    <img src="./static/image/ergocub.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/ros-industrial-attic/robotiq" target="_blank" class="image-link">
+                    <div class="overlay">2f-85</div>
+                    <img src="./static/image/2f85.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/tesollodelto/delto_m_ros2/tree/humble/dg_description" target="_blank" class="image-link">
+                    <div class="overlay">Delto-3f</div>
+                    <img src="./static/image/delto_3f.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/DexRobot/dexrobot_urdf/" target="_blank" class="image-link">
+                    <div class="overlay">Dexrobot</div>
+                    <img src="./static/image/dexrobot.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/tesollodelto/delto_m_ros2/tree/humble/dg_description" target="_blank" class="image-link">
+                    <div class="overlay">Delto-5f</div>
+                    <img src="./static/image/delto_5f.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/Osaka-University-Harada-Laboratory/onrobot" target="_blank" class="image-link">
+                    <div class="overlay">RG6</div>
+                    <img src="./static/image/rg6.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://git.h2t.iar.kit.edu/sw/armarx-integration/robots/armar6/models" target="_blank" class="image-link">
+                    <div class="overlay">Armar</div>
+                    <img src="./static/image/armar.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/FFTAI/Wiki-GRx-Models" target="_blank" class="image-link">
+                    <div class="overlay">Inspire</div>
+                    <img src="./static/image/inspire.png" style="max-width: 120px;">
+                </a>
+            </div>
+            <div class="image-container">
+                <a href="https://github.com/roboterax/models" target="_blank" class="image-link">
+                    <div class="overlay">Xhand1</div>
+                    <img src="./static/image/xhand1.png" style="max-width: 120px;">
+                </a>
+            </div>
+        </div>
+        <div class="content has-text-centered has-text-justified">
+            <div class="columns">
+                <div class="column">
+                    <ul>
+                        <li><a href="https://github.com/cambel/robotiq" target="_blank">E2f</a><sup>\</sup></li>
+                        <li><a href="https://github.com/ipa320/ipa325_wsg50" target="_blank">WSG50</a></li>
+                        <li><a href="https://github.com/ros-industrial-attic/robotiq" target="_blank">2f-85</a></li>
+                        <li><a href="https://github.com/Osaka-University-Harada-Laboratory/onrobot" target="_blank">RG6</a></li>
+                    </ul>
+                </div>
+
+                <div class="column">
+                    <ul>
+                        <li><a href="https://github.com/Kinovarobotics/kinova-ros" target="_blank">Kinova-2f</a></li>
+                        <li><a href="https://github.com/unitreerobotics/unitree_ros" target="_blank">Unitree-3f</a></li>
+                        <li><a href="https://github.com/tesollodelto/delto_m_ros2/tree/humble/dg_description" target="_blank">Delto-3f</a></li>
+                        <li><a href="https://git.h2t.iar.kit.edu/sw/armarx-integration/robots/armar6/models" target="_blank">Armar</a></li>
+                    </ul>
+                </div>
+
+                <div class="column">
+                    <ul>
+                        <li><a href="https://github.com/leap-hand/LEAP_Hand_Sim" target="_blank">Leap</a></li>
+                        <li><a href="https://github.com/limxdynamics/humanoid-description" target="_blank">Oli</a></li>
+                        <li><a href="https://github.com/DexRobot/dexrobot_urdf/" target="_blank">Dexrobot</a></li>
+                        <li><a href="https://github.com/FFTAI/Wiki-GRx-Models" target="_blank">Inspire</a></li>
+                    </ul>
+                </div>
+
+                <div class="column">
+                    <ul>
+                        <li><a href="https://github.com/fzi-forschungszentrum-informatik/schunk_svh_driver" target="_blank">Schunk</a></li>
+                        <li><a href="https://github.com/icub-tech-iit/ergocub-software" target="_blank">ergoCub</a></li>
+                        <li><a href="https://github.com/tesollodelto/delto_m_ros2/tree/humble/dg_description" target="_blank">Delto-5f</a></li>
+                        <li><a href="https://github.com/roboterax/models" target="_blank">Xhand1</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="content has-text-justified">
+            <p>Note: <sup>\</sup> Manipulator excluded from grasping task.</p>
+        </div>
+    </div>
+</section>
+
+<!--known object-->
+<section class="section">
+    <div class="container has-text-centered is-max-desktop">
+        <h2 class="title has-text-centered">Known Object</h2>
+        <figure class="image is-inline-block">
+            <img
+                    src="./static/image/obj_known.png"
+                    alt="Unknown Object"
+                    style="max-width: 800px;border-radius: 12px;">
+        </figure>
+        <div class="content has-text-centered has-text-justified">
+            <div class="columns">
+                <div class="column">
+                    <ul>
+                        <li>Bleach Cleanser</li>
+                        <li>Bowl</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Wooden Block</li>
+                        <li>Tuna Fish Can</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Tomato Soup Can</li>
+                        <li>Pudding Box</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Power Drill</li>
+                        <li>Cracker Box</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--unknown object-->
+<section class="section">
+    <div class="container has-text-centered is-max-desktop">
+        <h2 class="title has-text-centered">Unknown Object</h2>
+        <figure class="image is-inline-block">
+            <img
+                    src="./static/image/obj_unknown.png"
+                    alt="Unknown Object"
+                    style="max-width: 800px;border-radius: 12px;">
+        </figure>
+        <div class="content has-text-centered has-text-justified">
+            <div class="columns">
+                <div class="column">
+                    <ul>
+                        <li>Banana</li>
+                        <li>Master Chef Can</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Sugar Box</li>
+                        <li>Potted Meat Can</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Mug</li>
+                        <li>Foam Brick</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Mustard Bottle</li>
+                        <li>Gelatin Box</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--real object-->
+<section class="section">
+    <div class="container has-text-centered is-max-desktop">
+        <h2 class="title has-text-centered">Real Unknown Object</h2>
+        <figure class="image is-inline-block">
+            <img
+                    src="./static/image/obj_real.png"
+                    alt="Unknown Object"
+                    style="max-width: 800px;border-radius: 12px;">
+        </figure>
+        <div class="content has-text-centered has-text-justified">
+            <div class="columns">
+                <div class="column">
+                    <ul>
+                        <li>Plush Cat</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Pasta Box</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Shampoo Bottle</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Folding Umbrella</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Mustard Bottle</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--1st synergy-->
+<section class="section">
+    <div class="container has-text-centered">
+        <h2 class="title">First Postural Synergy</h2>
+        <video controls autoplay muted loop playsinline width="60%">
+            <source src="./static/vid/pc0.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</section>
+
+<!--simulation-->
+<section class="section">
+    <div class="container has-text-centered">
+        <h2 class="title">Simulation</h2>
+        <video controls autoplay muted loop playsinline width="60%">
+            <source src="./static/vid/sim.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</section>
+
+<!--Failure-->
+<section class="section">
+    <div class="container has-text-centered">
+        <h2 class="title">Failure Cases</h2>
+        <video controls autoplay muted loop playsinline width="60%">
+            <source src="./static/vid/failure.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</section>
+
+<!--citation-->
+<!--<section class="section"><section class="section">-->
+<!--    <div class="container is-max-desktop">-->
+<!--        <h2 class="title has-text-centered">BibTeX</h2>-->
+<!--        <div class="content has-text-centered has-text-justified">-->
+<!--            <pre>-->
+<!--                <code>-->
+<!--                </code>-->
+<!--            </pre>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!--footer-->
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p style="font-size: 1rem; color: #666;">
+            © 2026 Morpolicy
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
